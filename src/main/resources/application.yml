@@ -1,0 +1,86 @@
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+# 동작 환경 설정
+spring:
+  profiles:
+    active: test
+server:
+  servlet:
+    session:
+      timeout: 1440m      # 60m * 24h * 30d
+      cookie:
+        max-age: 1440m    # 60m * 24h * 30d
+        name: SID
+        http-only: true
+        secure: true
+---
+spring:
+  config:
+    activate: 
+      on-profile: test
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    password: ghksrka3849!
+    url: jdbc:mariadb://43.201.82.178:3306/stamp?useUnicode=true&characterEncoding=utf8
+    username: root
+    hikari:
+      connectionTimeout: 30000
+      maximumPoolSize: 10
+      maxLifetime: 1800000
+      poolName: HikariCP
+      readOnly: false
+      connectionTestQuery: SELECT 1
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDB103Dialect
+  servlet:
+    multipart:
+      maxFileSize: 100MB
+      maxRequestSize: -1
+  
+ 
+# 배포 환경
+--- 
+spring:
+  config:
+    activate: 
+      on-profile: prod
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    password: ghksrka9274!
+    url: jdbc:mariadb://localhost:3306/teriwoo1987?useUnicode=true&characterEncoding=utf8
+    username: teriwoo1987
+    hikari:
+      connectionTimeout: 30000
+      maximumPoolSize: 10
+      maxLifetime: 1800000
+      poolName: HikariCP
+      readOnly: false
+      connectionTestQuery: SELECT 1
+  h2:
+    console:
+      enabled: true
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDB103Dialect
+  servlet:
+    multipart:
+      maxFileSize: 100MB
+      maxRequestSize: -1
+
+
+
